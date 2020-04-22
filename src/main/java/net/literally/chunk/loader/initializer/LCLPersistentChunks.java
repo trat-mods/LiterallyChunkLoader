@@ -10,10 +10,11 @@ import java.util.ArrayList;
 
 public final class LCLPersistentChunks
 {
-    private static boolean firstTick = true;
+    private static boolean firstTick;
     
     public static void initialize()
     {
+        firstTick = true;
         ServerTickCallback.EVENT.register((MinecraftServer server) ->
         {
             if(firstTick)
@@ -33,7 +34,8 @@ public final class LCLPersistentChunks
         }
         else
         {
-            areasData.removeArea(area);
+            boolean delres = areasData.removeArea(area);
+            System.out.println("Del res:" + delres);
             area.setForceLoaded(server, false);
             return ChunksSerializeManager.serialize(areasData, server.getLevelName());
         }

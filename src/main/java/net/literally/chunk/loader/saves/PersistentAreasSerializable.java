@@ -23,7 +23,15 @@ public class PersistentAreasSerializable implements Serializable
             persistentAreas = new ArrayList<>();
             return false;
         }
-        return persistentAreas.remove(data);
+        for(int i = 0; i < persistentAreas.size(); i++)
+        {
+            if(persistentAreas.get(i).equals(data))
+            {
+                persistentAreas.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
     
     public ArrayList<PersistentArea> getAreasCentrePos()

@@ -21,4 +21,17 @@ public class Centre implements Serializable
     {
         return "( " + x + ", " + z + " )";
     }
+    
+    @Override public boolean equals(Object obj)
+    {
+        if(obj instanceof Centre)
+        {
+            Centre other = (Centre) obj;
+            return other.getX() == this.getX() && other.getZ() == this.getZ();
+        }
+        else
+        {
+            return super.equals(obj);
+        }
+    }
 }

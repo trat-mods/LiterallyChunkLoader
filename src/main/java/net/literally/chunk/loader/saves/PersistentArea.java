@@ -4,7 +4,6 @@ import net.literally.chunk.loader.loaders.LCLLoader;
 import net.literally.chunk.loader.utils.ModLogger;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.io.Serializable;
@@ -49,7 +48,6 @@ public class PersistentArea implements Serializable
             {
                 DimensionType dimensionType = DimensionType.OVERWORLD;
                 ServerWorld serverWorld = server.getWorld(dimensionType);
-                ChunkPos chunkPos = null;
                 int r = 0;
                 
                 for(int s = m; s <= o; ++s)
@@ -67,6 +65,10 @@ public class PersistentArea implements Serializable
                 {
                     logger.logInfo("Chunks from: [x,y] => [" + i + ", " + j + "] to [x,y] => [" + k + ", " + l + "], forceload = " + forceLoaded);
                 }
+                else
+                {
+                    logger.logInfo("No chunks were affected (duplicate state)");
+                }
             }
         }
         else
@@ -79,5 +81,18 @@ public class PersistentArea implements Serializable
     @Override public String toString()
     {
         return "Centre: " + centre.toString();
+    }
+    
+    @Override public boolean equals(Object obj)
+    {
+        if(obj instanceof PersistentArea)
+        {
+            PersistentArea other = (PersistentArea) obj;
+            return centre.equals(other.getCentre());
+        }
+        else
+        {
+            return super.equals(obj);
+        }
     }
 }

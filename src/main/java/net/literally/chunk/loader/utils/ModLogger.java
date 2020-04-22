@@ -12,18 +12,15 @@ public final class ModLogger
     public void logError(String message)
     {
         System.out.println("[" + domain + "]:(ERROR) => " + message);
-        System.out.flush();
     }
     
     public void logInfo(String message)
     {
         System.out.println("[" + domain + "]:(INFO) => " + message);
-        System.out.flush();
     }
     
     public void logWarning(String message)
     {
         System.out.println("[" + domain + "]:(WARNING) => " + message);
-        System.out.flush();
     }
 }
