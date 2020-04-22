@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.literally.chunk.loader.LCLLoader"
+            "net.literally.chunk.loader.loaders.LCLLoader"
         ]
     },
     "mixins": [
