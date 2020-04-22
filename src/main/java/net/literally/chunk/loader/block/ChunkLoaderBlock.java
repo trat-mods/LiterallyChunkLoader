@@ -1,5 +1,7 @@
 package net.literally.chunk.loader.block;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.literally.chunk.loader.initializer.LCLPersistentChunks;
 import net.literally.chunk.loader.loaders.LCLLoader;
@@ -10,6 +12,7 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -20,6 +23,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class ChunkLoaderBlock extends Block
 {
@@ -42,6 +47,7 @@ public class ChunkLoaderBlock extends Block
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
     {
+        
         if(!world.isClient)
         {
             boolean wasActive = state.get(ACTIVE);
@@ -71,6 +77,26 @@ public class ChunkLoaderBlock extends Block
             LCLPersistentChunks.removePersistentArea(server, newArea);
         }
         super.onBreak(world, pos, state, player);
+    }
+    
+    @Environment(EnvType.CLIENT)
+    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
+    {
+        if(world.getBlockState(pos).get(ACTIVE))
+        {
+            double d = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);
+            double e = (double) pos.getY() + 1F - (double) (random.nextFloat() * 0.5F);
+            double f = (double) pos.getZ() + 0.65D - (double) (random.nextFloat() * 0.3F);
+            double g = (double) (0.4F - (random.nextFloat() + random.nextFloat()) * 0.4F);
+            if(random.nextInt(8) == 0)
+            {
+                world.addParticle(ParticleTypes.END_ROD, d + 0.1F * g, e + 0.1F * g, f + 0.1F * g, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D);
+            }
+            double x = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);
+            double y = (double) pos.getY() + 2.75D;
+            double z = (double) pos.getZ() + 0.65D - (double) (random.nextFloat() * 0.3F);
+            world.addParticle(ParticleTypes.PORTAL, x, y, z, 0, -3D, 0);
+        }
     }
     
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager)

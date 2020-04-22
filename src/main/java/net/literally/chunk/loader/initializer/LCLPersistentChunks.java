@@ -34,8 +34,7 @@ public final class LCLPersistentChunks
         }
         else
         {
-            boolean delres = areasData.removeArea(area);
-            System.out.println("Del res:" + delres);
+            areasData.removeArea(area);
             area.setForceLoaded(server, false);
             return ChunksSerializeManager.serialize(areasData, server.getLevelName());
         }

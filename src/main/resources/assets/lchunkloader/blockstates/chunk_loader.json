@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,active=false": {"model": "lchunkloader:block/chunk_loader"},
+        "facing=south,active=false": {"model": "lchunkloader:block/chunk_loader", "y": 180},
+        "facing=west,active=false": {"model": "lchunkloader:block/chunk_loader", "y": 270},
+        "facing=east,active=false": {"model": "lchunkloader:block/chunk_loader", "y": 90},
+        "facing=north,active=true": {"model": "lchunkloader:block/chunk_loader"},
+        "facing=south,active=true": {"model": "lchunkloader:block/chunk_loader", "y": 180},
+        "facing=west,active=true": {"model": "lchunkloader:block/chunk_loader", "y": 270},
+        "facing=east,active=true": {"model": "lchunkloader:block/chunk_loader", "y": 90}
+    }
+}
