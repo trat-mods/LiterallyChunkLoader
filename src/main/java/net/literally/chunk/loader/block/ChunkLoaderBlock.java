@@ -3,26 +3,32 @@ package net.literally.chunk.loader.block;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.literally.chunk.loader.data.AreaData;
+import net.literally.chunk.loader.data.CentreData;
 import net.literally.chunk.loader.initializer.LCLPersistentChunks;
 import net.literally.chunk.loader.loaders.LCLLoader;
-import net.literally.chunk.loader.saves.PersistentArea;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.Material;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 import java.util.Random;
 
@@ -47,23 +53,13 @@ public class ChunkLoaderBlock extends Block
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
     {
-        
         if(!world.isClient)
         {
             boolean wasActive = state.get(ACTIVE);
             world.setBlockState(pos, world.getBlockState(pos).with(ACTIVE, !wasActive), 0B1011);
-            if(wasActive)
-            {
-                MinecraftServer server = world.getWorld().getServer();
-                PersistentArea newArea = new PersistentArea(pos.getX(), pos.getZ());
-                LCLPersistentChunks.removePersistentArea(server, newArea);
-            }
-            else
-            {
-                MinecraftServer server = world.getWorld().getServer();
-                PersistentArea newArea = new PersistentArea(pos.getX(), pos.getZ());
-                LCLPersistentChunks.addPersistentArea(server, newArea);
-            }
+            MinecraftServer server = world.getWorld().getServer();
+            AreaData newArea = new AreaData(pos.getX(), pos.getZ());
+            LCLPersistentChunks.toggleAreaState(server, newArea, !wasActive);
         }
         return ActionResult.SUCCESS;
     }
@@ -73,15 +69,52 @@ public class ChunkLoaderBlock extends Block
         if(!world.isClient)
         {
             MinecraftServer server = world.getWorld().getServer();
-            PersistentArea newArea = new PersistentArea(pos.getX(), pos.getZ());
+            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()));
             LCLPersistentChunks.removePersistentArea(server, newArea);
         }
         super.onBreak(world, pos, state, player);
     }
     
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack)
+    {
+        if(!world.isClient)
+        {
+            MinecraftServer server = world.getWorld().getServer();
+            AreaData newArea = new AreaData(pos.getX(), pos.getZ());
+            LCLPersistentChunks.addPersistentArea(server, newArea);
+        }
+        super.onPlaced(world, pos, state, placer, itemStack);
+    }
+    
+    @Override public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
+    {
+        if(!world.isClient())
+        {
+            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()));
+            System.out.println(newArea.getCentreData().toString());
+            System.out.println(newArea.toString());
+            boolean canPlace = LCLPersistentChunks.canPlaceLoaderAt(newArea);
+            if(!canPlace)
+            {
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Can't place a Loader between a 5 chunk radius from another Loader!"));
+            }
+            return canPlace;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     @Environment(EnvType.CLIENT)
     @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
     {
+        //SerializedAreasData areasData = ChunksSerializeManager.deserialize(LCLPersistentChunks.CURRENT_LEVEL_NAME);
+        //if(areasData != null)
+        //{
+        //    System.out.println(LCLPersistentChunks.CURRENT_LEVEL_NAME + areasData.getAreas().size());
+        //}
         if(world.getBlockState(pos).get(ACTIVE))
         {
             double d = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);

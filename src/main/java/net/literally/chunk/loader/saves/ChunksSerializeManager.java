@@ -1,5 +1,6 @@
 package net.literally.chunk.loader.saves;
 
+import net.literally.chunk.loader.data.SerializedAreasData;
 import net.literally.chunk.loader.loaders.LCLLoader;
 import net.literally.chunk.loader.utils.ModLogger;
 
@@ -8,14 +9,14 @@ import java.io.*;
 public final class ChunksSerializeManager
 {
     public static final String NAME = "chunks.data";
-    public static final String PATH = "lcl";
+    public static final String PATH = "literally_chunk_loader";
     
     private static FileOutputStream outputStream;
     private static ObjectOutputStream objectOutputStream;
     private static FileInputStream inputStream;
     private static ObjectInputStream objectInputStream;
     
-    public static boolean serialize(PersistentAreasSerializable areasData, String worldName)
+    public static boolean serialize(SerializedAreasData areasData, String worldName)
     {
         ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
         try
@@ -30,7 +31,7 @@ public final class ChunksSerializeManager
             outputStream = new FileOutputStream(getCompletePath(worldName));
             objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(areasData);
-            logger.logInfo("Persistent chunks data successfully serialized");
+            //logger.logInfo("Persistent chunks data successfully serialized");
             return true;
         } catch(IOException e)
         {
@@ -40,7 +41,7 @@ public final class ChunksSerializeManager
         }
     }
     
-    public static PersistentAreasSerializable deserialize(String worldName)
+    public static SerializedAreasData deserialize(String worldName)
     {
         ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
         try
@@ -53,10 +54,10 @@ public final class ChunksSerializeManager
             inputStream = new FileInputStream(getCompletePath(worldName));
             objectInputStream = new ObjectInputStream(inputStream);
             Object areasData = objectInputStream.readObject();
-            if(areasData instanceof PersistentAreasSerializable)
+            if(areasData instanceof SerializedAreasData)
             {
-                logger.logInfo("Persistent chunks file successfully deserialized");
-                return (PersistentAreasSerializable) areasData;
+                //logger.logInfo("Persistent chunks file successfully deserialized");
+                return (SerializedAreasData) areasData;
             }
             else
             {
