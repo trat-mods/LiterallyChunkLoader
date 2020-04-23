@@ -92,8 +92,6 @@ public class ChunkLoaderBlock extends Block
         if(!world.isClient())
         {
             AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()));
-            System.out.println(newArea.getCentreData().toString());
-            System.out.println(newArea.toString());
             boolean canPlace = LCLPersistentChunks.canPlaceLoaderAt(newArea);
             if(!canPlace)
             {

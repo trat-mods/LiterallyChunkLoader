@@ -84,10 +84,8 @@ public final class LCLPersistentChunks
         else
         {
             ArrayList<AreaData> areas = areasData.getAreas();
-            System.out.println("current:" + data.toString());
             for(int i = 0; i < areas.size(); i++)
             {
-                System.out.println("i:" + areas.get(i).toString());
                 if(AreaImplementation.areAreasOverlapping(areas.get(i), data))
                 {
                     return false;
