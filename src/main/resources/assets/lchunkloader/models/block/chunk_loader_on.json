@@ -10,7 +10,7 @@
     "textures": {
         "base": "minecraft:block/chiseled_quartz_block",
         "top": "lchunkloader:block/chunk_loader_base_top",
-        "rod": "minecraft:block/end_rod",
+        "rod": "lchunkloader:block/custom_end_rod",
         "sides": "lchunkloader:block/chunk_loader_base_side",
         "particle": "#rod"
     },
@@ -79,7 +79,7 @@
             "from": [7, 6, 7],
             "to": [9, 16, 9],
             "faces": {
-                "up": {"uv": [2, 0, 4, 2], "texture": "#rod", "cullface": "up"},
+                "up": {"uv": [11, 0, 13, 2], "texture": "#rod", "cullface": "up"},
                 "north": {"uv": [0, 5, 2, 15], "texture": "#rod"},
                 "south": {"uv": [0, 5, 2, 15], "texture": "#rod"},
                 "west": {"uv": [0, 5, 2, 15], "texture": "#rod"},

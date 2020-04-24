@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.literally.chunk.loader.data.AreaData;
 import net.literally.chunk.loader.data.CentreData;
+import net.literally.chunk.loader.implementations.AreaImplementation;
 import net.literally.chunk.loader.initializer.LCLPersistentChunks;
 import net.literally.chunk.loader.loaders.LCLLoader;
 import net.minecraft.block.Block;
@@ -12,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.Material;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -27,6 +29,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
@@ -51,6 +55,12 @@ public class ChunkLoaderBlock extends Block
     }
     
     @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext ePos)
+    {
+        return Block.createCuboidShape(1F, 0F, 1F, 15F, 16F, 15F);
+    }
+    
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
     {
         if(!world.isClient)
@@ -58,7 +68,7 @@ public class ChunkLoaderBlock extends Block
             boolean wasActive = state.get(ACTIVE);
             world.setBlockState(pos, world.getBlockState(pos).with(ACTIVE, !wasActive), 0B1011);
             MinecraftServer server = world.getWorld().getServer();
-            AreaData newArea = new AreaData(pos.getX(), pos.getZ());
+            AreaData newArea = new AreaData(pos.getX(), pos.getZ(), AreaImplementation.getIDFromDimension(world.getDimension().getType()));
             LCLPersistentChunks.toggleAreaState(server, newArea, !wasActive);
         }
         return ActionResult.SUCCESS;
@@ -69,7 +79,7 @@ public class ChunkLoaderBlock extends Block
         if(!world.isClient)
         {
             MinecraftServer server = world.getWorld().getServer();
-            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()));
+            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()), AreaImplementation.getIDFromDimension(world.getDimension().getType()));
             LCLPersistentChunks.removePersistentArea(server, newArea);
         }
         super.onBreak(world, pos, state, player);
@@ -81,7 +91,8 @@ public class ChunkLoaderBlock extends Block
         if(!world.isClient)
         {
             MinecraftServer server = world.getWorld().getServer();
-            AreaData newArea = new AreaData(pos.getX(), pos.getZ());
+            System.out.println(AreaImplementation.getIDFromDimension(world.getDimension().getType()));
+            AreaData newArea = new AreaData(pos.getX(), pos.getZ(), AreaImplementation.getIDFromDimension(world.getDimension().getType()));
             LCLPersistentChunks.addPersistentArea(server, newArea);
         }
         super.onPlaced(world, pos, state, placer, itemStack);
@@ -91,7 +102,7 @@ public class ChunkLoaderBlock extends Block
     {
         if(!world.isClient())
         {
-            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()));
+            AreaData newArea = new AreaData(new CentreData(pos.getX(), pos.getZ()), AreaImplementation.getIDFromDimension(world.getDimension().getType()));
             boolean canPlace = LCLPersistentChunks.canPlaceLoaderAt(newArea);
             if(!canPlace)
             {
@@ -106,20 +117,15 @@ public class ChunkLoaderBlock extends Block
     }
     
     @Environment(EnvType.CLIENT)
-    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
     {
-        //SerializedAreasData areasData = ChunksSerializeManager.deserialize(LCLPersistentChunks.CURRENT_LEVEL_NAME);
-        //if(areasData != null)
-        //{
-        //    System.out.println(LCLPersistentChunks.CURRENT_LEVEL_NAME + areasData.getAreas().size());
-        //}
         if(world.getBlockState(pos).get(ACTIVE))
         {
             double d = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);
             double e = (double) pos.getY() + 1F - (double) (random.nextFloat() * 0.5F);
             double f = (double) pos.getZ() + 0.65D - (double) (random.nextFloat() * 0.3F);
             double g = (double) (0.4F - (random.nextFloat() + random.nextFloat()) * 0.4F);
-            if(random.nextInt(8) == 0)
+            if(random.nextInt(6) == 0)
             {
                 world.addParticle(ParticleTypes.END_ROD, d + 0.1F * g, e + 0.1F * g, f + 0.1F * g, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D);
             }

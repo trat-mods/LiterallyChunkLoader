@@ -5,14 +5,16 @@ import java.io.Serializable;
 public class AreaData implements Serializable
 {
     private CentreData centre;
+    private String dimensionID;
     private int fromChunkX;
     private int toChunkX;
     private int fromChunkZ;
     private int toChunkZ;
     private boolean active;
     
-    public AreaData(CentreData centre)
+    public AreaData(CentreData centre, String dimensionID)
     {
+        this.dimensionID = dimensionID;
         this.centre = centre;
         this.fromChunkX = centre.getChunkX() - 2;
         this.toChunkX = centre.getChunkX() + 2;
@@ -20,10 +22,12 @@ public class AreaData implements Serializable
         this.toChunkZ = centre.getChunkZ() + 2;
     }
     
-    public AreaData(float x, float y)
+    public AreaData(float x, float y, String dimensionID)
     {
-        this(new CentreData(x, y));
+        this(new CentreData(x, y), dimensionID);
     }
+    
+    public String getDimensionID() {return dimensionID;}
     
     public CentreData getCentreData()
     {
@@ -62,6 +66,6 @@ public class AreaData implements Serializable
     
     @Override public String toString()
     {
-        return "Area: from [" + fromChunkX + ", " + fromChunkZ + "], to [" + toChunkX + ", " + toChunkZ + "]";
+        return "Dimension: " + dimensionID + ", from [" + fromChunkX + ", " + fromChunkZ + "], to [" + toChunkX + ", " + toChunkZ + "]";
     }
 }

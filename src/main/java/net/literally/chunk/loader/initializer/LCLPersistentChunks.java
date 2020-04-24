@@ -101,7 +101,6 @@ public final class LCLPersistentChunks
         if(areasData != null)
         {
             ArrayList<AreaData> areas = areasData.getAreas();
-            System.out.println(areas.size() + " areas found");
             for(int i = 0; i < areas.size(); i++)
             {
                 setAreaForceLoaded(server, areas.get(i), areas.get(i).getActive());
@@ -131,7 +130,7 @@ public final class LCLPersistentChunks
             }
             else
             {
-                DimensionType dimensionType = DimensionType.OVERWORLD;
+                DimensionType dimensionType = AreaImplementation.getDimensionFromID(area.getDimensionID());
                 ServerWorld serverWorld = server.getWorld(dimensionType);
                 int r = 0;
                 
@@ -148,7 +147,7 @@ public final class LCLPersistentChunks
                 }
                 if(r > 0)
                 {
-                    logger.logInfo("Chunks from: [x,y] => [" + i + ", " + j + "] to [x,y] => [" + k + ", " + l + "], forceload = " + forceLoaded);
+                    logger.logInfo("Dimension: " + area.getDimensionID() + ", from: [x,y] => [" + i + ", " + j + "] to [x,y] => [" + k + ", " + l + "], forceload = " + forceLoaded);
                 }
                 else
                 {
