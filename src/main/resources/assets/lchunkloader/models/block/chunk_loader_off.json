@@ -10,7 +10,7 @@
     "textures": {
         "base": "minecraft:block/chiseled_quartz_block",
         "top": "lchunkloader:block/chunk_loader_base_top",
-        "rod": "minecraft:block/end_rod",
+        "rod": "lchunkloader:block/end_rod",
         "sides": "lchunkloader:block/chunk_loader_base_side",
         "particle": "#rod"
     },
