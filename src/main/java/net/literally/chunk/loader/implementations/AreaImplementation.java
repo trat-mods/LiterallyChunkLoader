@@ -19,11 +19,11 @@ public final class AreaImplementation
     {
         if(!first.getDimensionID().equals(second.getDimensionID())) return false;
         
-        if(first.getFromChunkX() >= second.getToChunkX() || second.getFromChunkX() >= first.getToChunkX())
+        if(first.getToChunkX() < second.getFromChunkX() || second.getToChunkX() < first.getFromChunkX())
         {
             return false;
         }
-        if(first.getToChunkZ() <= second.getFromChunkZ() || second.getToChunkZ() <= first.getFromChunkZ())
+        if(first.getToChunkZ() < second.getFromChunkZ() || second.getToChunkZ() < first.getFromChunkZ())
         {
             return false;
         }

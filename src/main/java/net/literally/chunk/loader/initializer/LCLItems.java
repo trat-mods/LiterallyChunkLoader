@@ -8,8 +8,10 @@ import net.minecraft.util.registry.Registry;
 
 public final class LCLItems
 {
+    public static Item CHUNKLOADERITEM;
+    
     public static void initialize()
     {
-        Registry.register(Registry.ITEM, ChunkLoaderBlock.ID, new BlockItem(LCLBlocks.CHUNK_LOADER_BLOCK, new Item.Settings().group(ItemGroup.REDSTONE)));
+        CHUNKLOADERITEM = Registry.register(Registry.ITEM, ChunkLoaderBlock.ID, new BlockItem(LCLBlocks.CHUNK_LOADER_BLOCK, new Item.Settings().group(ItemGroup.REDSTONE)));
     }
 }
