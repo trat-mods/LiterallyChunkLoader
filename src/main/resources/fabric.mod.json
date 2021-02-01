@@ -8,10 +8,10 @@
         "t_r_a_t"
     ],
     "contact": {
-        "homepage": "https://github.com/tratteo/LiterallyChunkLoader/wiki",
-        "sources": "https://github.com/tratteo/LiterallyChunkLoader"
+        "homepage": "https://github.com/tratteo/LiterallyChunkLoader-1.15/wiki",
+        "sources": "https://github.com/tratteo/LiterallyChunkLoader-1.15",
+        "issues": "https://github.com/tratteo/LiterallyChunkLoader-1.15/issues"
     },
-    "license": "CC0-1.0",
     "icon": "assets/lchunkloader/icon.png",
     "environment": "*",
     "entrypoints": {
