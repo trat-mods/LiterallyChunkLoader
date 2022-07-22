@@ -1,32 +1,38 @@
 {
-    "schemaVersion": 1,
-    "id": "lchunkloader",
-    "version": "${version}",
-    "name": "Literally Chunk Loader",
-    "description": "This is an actual Chunk Loader",
-    "authors": [
-        "t_r_a_t"
+  "schemaVersion": 1,
+  "id": "lchunkloader",
+  "version": "${version}",
+  "name": "Literally Chunk Loader",
+  "description": "This is an actual Chunk Loader",
+  "authors": [
+    "t_r_a_t"
+  ],
+  "contact": {
+    "homepage": "https://github.com/tratteo/LiterallyChunkLoader/wiki",
+    "sources": "https://github.com/tratteo/LiterallyChunkLoader",
+    "issues": "https://github.com/tratteo/LiterallyChunkLoader/issues"
+  },
+  "icon": "assets/lchunkloader/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.literally.chunk.loader.loaders.LCLLoader"
     ],
-    "contact": {
-        "homepage": "https://github.com/tratteo/LiterallyChunkLoader-1.15/wiki",
-        "sources": "https://github.com/tratteo/LiterallyChunkLoader-1.15",
-        "issues": "https://github.com/tratteo/LiterallyChunkLoader-1.15/issues"
-    },
-    "icon": "assets/lchunkloader/icon.png",
-    "environment": "*",
-    "entrypoints": {
-        "main": [
-            "net.literally.chunk.loader.loaders.LCLLoader"
-        ]
-    },
-    "mixins": [
-    ],
-    "depends": {
-        "fabricloader": ">=0.7.2",
-        "fabric": "*",
-        "minecraft": "1.15.x"
-    },
-    "suggests": {
-        "flamingo": "*"
-    }
+    "client": [
+      "net.literally.chunk.loader.loaders.LCLClientLoader"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+  "mixins": [
+    "lchunkloader.mixins.json"
+  ],
+  "accessWidener": "lchunkloader.accesswidener"
 }
