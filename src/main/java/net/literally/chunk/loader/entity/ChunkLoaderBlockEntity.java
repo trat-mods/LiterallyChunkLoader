@@ -5,7 +5,6 @@ import net.literally.chunk.loader.GUI.handler.ChunkLoaderGUIHandler;
 import net.literally.chunk.loader.initializer.LCLEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -25,7 +24,7 @@ public class ChunkLoaderBlockEntity extends BlockEntity implements NamedScreenHa
 
     @Override
     public Text getDisplayName() {
-        return Text.of(I18n.translate(getCachedState().getBlock().getTranslationKey()));
+        return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
     @Override
