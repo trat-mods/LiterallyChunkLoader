@@ -25,14 +25,11 @@ import static com.mojang.brigadier.arguments.StringArgumentType.word;
 public final class LCLCommands {
 
     public static void initialize() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated, environment) -> {
-            LCLLocate.define(dispatcher);
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated, environment) -> LCLLocate.define(dispatcher));
     }
 
     private final static class LCLLocate {
         public static void define(CommandDispatcher<ServerCommandSource> dispatcher) {
-            ArrayList<String> launchersList = new ArrayList<>();
             dispatcher.register(CommandManager.literal("lclocate").then(CommandManager.argument("dimension", word()).suggests(suggestedStrings()).executes(ctx -> {
                 String dimension = getString(ctx, "dimension");
                 ArrayList<SerializableChunkPos> loaders = getLoadersInDimension(ctx, dimension);

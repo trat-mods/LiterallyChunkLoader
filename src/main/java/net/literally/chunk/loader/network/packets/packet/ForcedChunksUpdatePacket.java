@@ -53,11 +53,6 @@ public class ForcedChunksUpdatePacket {
         Collections.addAll(this.chunksPos, chunksPos);
     }
 
-    public ForcedChunksUpdatePacket(int x, int z, boolean state, SerializableChunkPos... chunksPos) {
-        this(x, z, state);
-        Collections.addAll(this.chunksPos, chunksPos);
-    }
-
     public static ForcedChunksUpdatePacket read(PacketByteBuf buf) {
         ArrayList<SerializableChunkPos> chunks = new ArrayList<>();
         int x = buf.readInt();

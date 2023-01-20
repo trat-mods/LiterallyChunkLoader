@@ -14,8 +14,6 @@ public final class LCLItems {
 
     public static void initialize() {
         CHUNKLOADERITEM = Registry.register(Registries.ITEM, ChunkLoaderBlock.ID, new BlockItem(LCLBlocks.CHUNK_LOADER_BLOCK, new FabricItemSettings()));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> {
-            content.add(CHUNKLOADERITEM);
-        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.add(CHUNKLOADERITEM));
     }
 }

@@ -1,7 +1,7 @@
 package net.literally.chunk.loader.utils;
 
 public final class ModLogger {
-    private String domain;
+    private final String domain;
 
     public ModLogger(String domain) {
         this.domain = domain;

@@ -31,9 +31,7 @@ public class ChunkLoaderGUIHandler extends SyncedGuiDescription {
     public ChunkLoaderGUIHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(LCLGUIHandlers.CHUNK_LOADER_SCREEN_HANDLER, syncId, playerInventory, getBlockInventory(context), null);
         this.context = context;
-        context.run((world, pos) -> {
-            loaderEntity = (ChunkLoaderBlockEntity) world.getBlockEntity(pos);
-        });
+        context.run((world, pos) -> loaderEntity = (ChunkLoaderBlockEntity) world.getBlockEntity(pos));
 
         centre = new SerializableChunkPos(loaderEntity.getPos(), world.getRegistryKey().getValue().getPath());
         WPlainPanel root = new WPlainPanel();

@@ -15,7 +15,7 @@ public final class ChunksSerializeManager {
         ObjectOutputStream objectOutputStream = null;
         ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
         try {
-            if (nonexistentFile(worldName)) {
+            if (nonExistentFile(worldName)) {
                 File file = new File(getCompletePath(worldName));
                 if (file.getParentFile().mkdirs() && file.createNewFile()) {
                     logger.logInfo("Persistent chunks data file still doesn't exist, generating a new one");
@@ -50,7 +50,7 @@ public final class ChunksSerializeManager {
         ObjectInputStream objectInputStream = null;
         ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
         try {
-            if (nonexistentFile(worldName)) {
+            if (nonExistentFile(worldName)) {
                 return null;
             }
             inputStream = new FileInputStream(getCompletePath(worldName));
@@ -80,7 +80,7 @@ public final class ChunksSerializeManager {
         }
     }
 
-    private static boolean nonexistentFile(String worldName) {
+    private static boolean nonExistentFile(String worldName) {
         File file = new File(getCompletePath(worldName));
         return !file.exists();
     }

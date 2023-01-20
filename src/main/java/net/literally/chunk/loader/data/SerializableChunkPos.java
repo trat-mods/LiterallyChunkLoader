@@ -50,8 +50,7 @@ public class SerializableChunkPos implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof SerializableChunkPos) {
-            SerializableChunkPos other = (SerializableChunkPos) obj;
+        if (obj instanceof SerializableChunkPos other) {
             return this.getDimension().equals(other.getDimension()) && x == other.getX() && z == other.getZ();
         }
         return super.equals(obj);

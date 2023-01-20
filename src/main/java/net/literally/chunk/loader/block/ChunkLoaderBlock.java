@@ -36,7 +36,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ChunkLoaderBlock extends BlockWithEntity {
     public static final Identifier ID = new Identifier(LCLLoader.MOD_ID, "chunk_loader");
@@ -64,9 +63,7 @@ public class ChunkLoaderBlock extends BlockWithEntity {
             LongSet set = serverWorld.getForcedChunks();
             ArrayList<SerializableChunkPos> longs = new ArrayList<>();
             SerializableChunkPos chunk = new SerializableChunkPos(pos, world.getRegistryKey().getValue().getPath());
-            Iterator<Long> it = set.stream().iterator();
-            while (it.hasNext()) {
-                long longPos = it.next();
+            for (long longPos : set) {
                 int fromX = chunk.getX() - (LclData.SIZE / 2);
                 int toX = chunk.getX() + (LclData.SIZE / 2);
                 int fromZ = chunk.getZ() - (LclData.SIZE / 2);
@@ -100,14 +97,16 @@ public class ChunkLoaderBlock extends BlockWithEntity {
             SerializableChunkPos chunk = new SerializableChunkPos(pos, world.getRegistryKey().getValue().getPath());
             boolean canPlace = LCLPersistentChunks.canPlaceLoaderAt(chunk);
             if (canPlace) {
-                boolean added = LCLPersistentChunks.loaderAdded(chunk);
+                LCLPersistentChunks.loaderAdded(chunk);
             }
             else {
                 PlayerEntity player = (PlayerEntity) placer;
                 ItemScatterer.spawn(world, pos, new SimpleInventory(new ItemStack(LCLItems.CHUNKLOADERITEM, 1)));
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-                assert server != null;
-                server.getPlayerManager().getPlayer(player.getUuid()).sendMessage(Text.of("Can't place a Loader in the same chunk of another Loader"));
+                if (server == null) return;
+                var manager = server.getPlayerManager().getPlayer(player.getUuid());
+                if (manager == null) return;
+                manager.sendMessage(Text.of("Can't place a Loader in the same chunk of another Loader"));
                 return;
             }
         }
@@ -120,7 +119,7 @@ public class ChunkLoaderBlock extends BlockWithEntity {
         double d = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);
         double e = (double) pos.getY() + 1F - (double) (random.nextFloat() * 0.5F);
         double f = (double) pos.getZ() + 0.65D - (double) (random.nextFloat() * 0.3F);
-        double g = (double) (0.4F - (random.nextFloat() + random.nextFloat()) * 0.4F);
+        double g = 0.4F - (random.nextFloat() + random.nextFloat()) * 0.4F;
         if (random.nextInt(6) == 0) {
             world.addParticle(ParticleTypes.END_ROD, d + 0.1F * g, e + 0.1F * g, f + 0.1F * g, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D);
         }
