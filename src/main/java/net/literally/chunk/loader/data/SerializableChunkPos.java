@@ -1,8 +1,8 @@
 package net.literally.chunk.loader.data;
 
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 import java.io.Serializable;
