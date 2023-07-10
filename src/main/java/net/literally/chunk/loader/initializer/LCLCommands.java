@@ -34,7 +34,7 @@ public final class LCLCommands {
                 String dimension = getString(ctx, "dimension");
                 ArrayList<SerializableChunkPos> loaders = getLoadersInDimension(ctx, dimension);
                 if (loaders.size() == 0) {
-                    ctx.getSource().sendFeedback((Text.of("No loaders found in dimension: " + dimension + "\n")), false);
+                    ctx.getSource().sendFeedback((() -> Text.of("No loaders found in dimension: " + dimension + "\n")), false);
                     return 1;
                 }
                 int size = loaders.size();
@@ -56,7 +56,7 @@ public final class LCLCommands {
                         response.append(", ");
                     }
                 }
-                ctx.getSource().sendFeedback(Text.of(response.toString()), false);
+                ctx.getSource().sendFeedback(() -> Text.of(response.toString()), false);
                 return 1;
             })));
         }

@@ -46,7 +46,7 @@ public class ChunkLoaderBlock extends BlockWithEntity {
     }
 
     public ChunkLoaderBlock() {
-        super(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1F, 1F).nonOpaque());
+        super(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1F, 1F).nonOpaque());
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 

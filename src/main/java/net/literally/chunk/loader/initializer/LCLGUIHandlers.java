@@ -11,6 +11,6 @@ public final class LCLGUIHandlers {
 
     public static void initialize() {
         CHUNK_LOADER_SCREEN_HANDLER = ScreenHandlerRegistry.registerExtended(ChunkLoaderBlock.ID,
-                                                                             (syncId, inventory, buf) -> new ChunkLoaderGUIHandler(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos())));
+                                                                             (syncId, inventory, buf) -> new ChunkLoaderGUIHandler(syncId, inventory, ScreenHandlerContext.create(inventory.player.getWorld(), buf.readBlockPos())));
     }
 }

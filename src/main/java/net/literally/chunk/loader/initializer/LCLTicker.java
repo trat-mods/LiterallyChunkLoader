@@ -66,13 +66,13 @@ public final class LCLTicker {
                 Profiler profiler = world.getProfiler();
                 int startX = chunk.getPos().getStartX();
                 int startZ = chunk.getPos().getStartZ();
+                int startY = chunk.getPos().getStartPos().getY();
                 for (ChunkSection chunkSection : chunk.getSectionArray()) {
                     if (!chunkSection.isEmpty() && chunkSection.hasRandomTicks()) {
-                        int yOffset = chunkSection.getYOffset();
                         for (int m = 0; m < randomTickSpeed; m++) {
-                            BlockPos randomPosInChunk = world.getRandomPosInChunk(startX, yOffset, startZ, 15);
+                            BlockPos randomPosInChunk = world.getRandomPosInChunk(startX, startY, startZ, 15);
                             profiler.push("randomTick");
-                            BlockState blockState = chunkSection.getBlockState(randomPosInChunk.getX() - startX, randomPosInChunk.getY() - yOffset, randomPosInChunk.getZ() - startZ);
+                            BlockState blockState = chunkSection.getBlockState(randomPosInChunk.getX() - startX, randomPosInChunk.getY() - startY, randomPosInChunk.getZ() - startZ);
                             if (blockState.hasRandomTicks()) {
                                 blockState.randomTick(world, randomPosInChunk, world.random);
                             }
