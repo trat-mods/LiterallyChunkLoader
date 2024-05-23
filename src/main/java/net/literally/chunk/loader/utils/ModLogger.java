@@ -1,6 +1,9 @@
 package net.literally.chunk.loader.utils;
 
+import net.literally.chunk.loader.loaders.LCLLoader;
+
 public final class ModLogger {
+    public final static ModLogger DEFAULT_CHANNEL = new ModLogger(LCLLoader.MOD_ID);
     private final String domain;
 
     public ModLogger(String domain) {

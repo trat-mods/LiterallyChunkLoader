@@ -7,14 +7,13 @@ import net.literally.chunk.loader.mixin.ThreadedAnvilChunkStorageInvoker;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.server.world.ChunkHolder;
+import net.minecraft.server.world.OptionalChunk;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.WorldChunk;
-
-import java.util.Optional;
 
 public final class LCLTicker {
     public static void initialize() {
@@ -56,13 +55,13 @@ public final class LCLTicker {
                 return;
             }
 
-            Optional<WorldChunk> optionalWorldChunk = chunkHolder.getTickingFuture().getNow(ChunkHolder.UNLOADED_WORLD_CHUNK).left();
-            if (optionalWorldChunk.isEmpty()) {
+            OptionalChunk<WorldChunk> optionalWorldChunk = chunkHolder.getTickingFuture().getNow(ChunkHolder.UNLOADED_WORLD_CHUNK);
+            if (optionalWorldChunk.isPresent()) {
                 return;
             }
             // Make sure it's too far to get regular random ticks
             if (storage.invokeIsTooFarFromPlayersToSpawnMobs(chunkHolder.getPos())) {
-                WorldChunk chunk = optionalWorldChunk.get();
+                WorldChunk chunk = optionalWorldChunk.orElse(null);
                 Profiler profiler = world.getProfiler();
                 int startX = chunk.getPos().getStartX();
                 int startZ = chunk.getPos().getStartZ();

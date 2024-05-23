@@ -1,26 +1,26 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#/#",
-        "#E#",
-        "QQQ"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:ender_pearl"
-        },
-        "/": {
-            "item": "minecraft:end_rod"
-        },
-        "E": {
-            "item": "minecraft:ender_eye"
-        },
-        "Q": {
-            "item": "minecraft:quartz_block"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#/#",
+    "#E#",
+    "QQQ"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:ender_pearl"
     },
-    "result": {
-        "item": "lchunkloader:chunk_loader",
-        "count": 1
+    "/": {
+      "item": "minecraft:end_rod"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "Q": {
+      "item": "minecraft:quartz_block"
     }
+  },
+  "result": {
+    "id": "lchunkloader:chunk_loader",
+    "count": 1
+  }
 }

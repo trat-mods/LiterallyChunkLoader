@@ -56,7 +56,7 @@ public class SerializableChunkPos implements Serializable {
         return super.equals(obj);
     }
 
-    public void write(PacketByteBuf buf) {
+    public void writeTo(PacketByteBuf buf) {
         buf.writeInt(x);
         buf.writeInt(z);
         buf.writeString(dimension);
@@ -75,11 +75,11 @@ public class SerializableChunkPos implements Serializable {
     }
 
     public int getWorldRelativeX(int index) {
-        return x - (LclData.SIZE / 2) + index;
+        return x - (LCLData.SIZE / 2) + index;
     }
 
     public int getWorldRelativeZ(int index) {
-        return z - (LclData.SIZE / 2) + index;
+        return z - (LCLData.SIZE / 2) + index;
     }
 
     public String getDimension() {

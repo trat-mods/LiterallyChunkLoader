@@ -1,7 +1,6 @@
 package net.literally.chunk.loader.saves;
 
-import net.literally.chunk.loader.data.LclData;
-import net.literally.chunk.loader.loaders.LCLLoader;
+import net.literally.chunk.loader.data.LCLData;
 import net.literally.chunk.loader.utils.ModLogger;
 
 import java.io.*;
@@ -10,10 +9,10 @@ public final class ChunksSerializeManager {
     public static final String NAME = "chunks.data";
     public static final String PATH = "literally_chunk_loader";
 
-    public static boolean serialize(LclData areasData, String worldName) {
+    public static boolean serialize(LCLData areasData, String worldName) {
         FileOutputStream outputStream = null;
         ObjectOutputStream objectOutputStream = null;
-        ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
+        ModLogger logger = ModLogger.DEFAULT_CHANNEL;
         try {
             if (nonExistentFile(worldName)) {
                 File file = new File(getCompletePath(worldName));
@@ -45,10 +44,10 @@ public final class ChunksSerializeManager {
         }
     }
 
-    public static LclData deserialize(String worldName) {
+    public static LCLData deserialize(String worldName) {
         FileInputStream inputStream = null;
         ObjectInputStream objectInputStream = null;
-        ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
+        ModLogger logger = ModLogger.DEFAULT_CHANNEL;
         try {
             if (nonExistentFile(worldName)) {
                 return null;
@@ -58,8 +57,8 @@ public final class ChunksSerializeManager {
             Object areasData = objectInputStream.readObject();
             inputStream.close();
             objectInputStream.close();
-            if (areasData instanceof LclData) {
-                return (LclData) areasData;
+            if (areasData instanceof LCLData) {
+                return (LCLData) areasData;
             }
             else {
                 logger.logError("Unable to cast deserialized data to type class");

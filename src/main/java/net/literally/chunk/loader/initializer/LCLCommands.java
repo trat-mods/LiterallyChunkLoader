@@ -6,7 +6,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.literally.chunk.loader.data.LclData;
+import net.literally.chunk.loader.data.LCLData;
 import net.literally.chunk.loader.data.SerializableChunkPos;
 import net.literally.chunk.loader.saves.ChunksSerializeManager;
 import net.minecraft.server.command.CommandManager;
@@ -33,7 +33,7 @@ public final class LCLCommands {
             dispatcher.register(CommandManager.literal("lclocate").then(CommandManager.argument("dimension", word()).suggests(suggestedStrings()).executes(ctx -> {
                 String dimension = getString(ctx, "dimension");
                 ArrayList<SerializableChunkPos> loaders = getLoadersInDimension(ctx, dimension);
-                if (loaders.size() == 0) {
+                if (loaders.isEmpty()) {
                     ctx.getSource().sendFeedback((() -> Text.of("No loaders found in dimension: " + dimension + "\n")), false);
                     return 1;
                 }
@@ -87,7 +87,7 @@ public final class LCLCommands {
 
         private static ArrayList<SerializableChunkPos> getLoadersInDimension(CommandContext<ServerCommandSource> ctx, String dimension) {
             ArrayList<SerializableChunkPos> res = new ArrayList<>();
-            LclData areasData = ChunksSerializeManager.deserialize(ctx.getSource().getWorld().getServer().getSaveProperties().getLevelName());
+            LCLData areasData = ChunksSerializeManager.deserialize(ctx.getSource().getWorld().getServer().getSaveProperties().getLevelName());
             if (areasData == null) {
                 return res;
             }

@@ -1,16 +1,17 @@
 package net.literally.chunk.loader.block;
 
+import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.literally.chunk.loader.data.LclData;
+import net.literally.chunk.loader.data.LCLData;
 import net.literally.chunk.loader.data.SerializableChunkPos;
 import net.literally.chunk.loader.entity.ChunkLoaderBlockEntity;
 import net.literally.chunk.loader.initializer.LCLItems;
 import net.literally.chunk.loader.initializer.LCLPersistentChunks;
 import net.literally.chunk.loader.loaders.LCLLoader;
-import net.literally.chunk.loader.network.packets.packet.ForcedChunksUpdatePacket;
+import net.literally.chunk.loader.network.packets.packet.ForcedChunksUpdatePacketPayload;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -56,7 +57,7 @@ public class ChunkLoaderBlock extends BlockWithEntity {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         if (!world.isClient) {
             ServerWorld serverWorld = (ServerWorld) world;
@@ -64,17 +65,17 @@ public class ChunkLoaderBlock extends BlockWithEntity {
             ArrayList<SerializableChunkPos> longs = new ArrayList<>();
             SerializableChunkPos chunk = new SerializableChunkPos(pos, world.getRegistryKey().getValue().getPath());
             for (long longPos : set) {
-                int fromX = chunk.getX() - (LclData.SIZE / 2);
-                int toX = chunk.getX() + (LclData.SIZE / 2);
-                int fromZ = chunk.getZ() - (LclData.SIZE / 2);
-                int toZ = chunk.getZ() + (LclData.SIZE / 2);
+                int fromX = chunk.getX() - (LCLData.SIZE / 2);
+                int toX = chunk.getX() + (LCLData.SIZE / 2);
+                int fromZ = chunk.getZ() - (LCLData.SIZE / 2);
+                int toZ = chunk.getZ() + (LCLData.SIZE / 2);
                 int x = ChunkPos.getPackedX(longPos);
                 int z = ChunkPos.getPackedZ(longPos);
                 if (x >= fromX && x <= toX && z >= fromZ && z <= toZ) {
                     longs.add(new SerializableChunkPos(longPos, chunk.getDimension()));
                 }
             }
-            ForcedChunksUpdatePacket pack = new ForcedChunksUpdatePacket(chunk.getX(), chunk.getZ(), true, longs);
+            ForcedChunksUpdatePacketPayload pack = new ForcedChunksUpdatePacketPayload(chunk.getX(), chunk.getZ(), true, longs);
             pack.sendTo(player);
         }
         return ActionResult.SUCCESS;
@@ -82,12 +83,12 @@ public class ChunkLoaderBlock extends BlockWithEntity {
 
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isClient) {
             SerializableChunkPos chunk = new SerializableChunkPos(pos, world.getRegistryKey().getValue().getPath());
             LCLPersistentChunks.loaderRemoved(world.getServer(), chunk);
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     @Override
@@ -135,7 +136,7 @@ public class ChunkLoaderBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
+        return this.getDefaultState().with(FACING, Direction.fromHorizontal(ctx.getPlayerLookDirection().getOpposite().getHorizontal()));
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {
@@ -144,6 +145,11 @@ public class ChunkLoaderBlock extends BlockWithEntity {
 
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
     }
 
     public BlockRenderType getRenderType(BlockState state) {

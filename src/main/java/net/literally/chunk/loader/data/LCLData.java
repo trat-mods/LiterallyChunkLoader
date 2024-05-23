@@ -3,13 +3,13 @@ package net.literally.chunk.loader.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LclData implements Serializable {
+public class LCLData implements Serializable {
     public static final int SIZE = 5;
     private final ArrayList<SerializableChunkPos> chunks;
     private final ArrayList<SerializableChunkPos> loadersChunks;
     private final boolean apiUpdate = false;
 
-    public LclData() {
+    public LCLData() {
         chunks = new ArrayList<>();
         loadersChunks = new ArrayList<>();
     }

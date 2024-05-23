@@ -1,8 +1,7 @@
 package net.literally.chunk.loader.initializer;
 
-import net.literally.chunk.loader.data.LclData;
+import net.literally.chunk.loader.data.LCLData;
 import net.literally.chunk.loader.data.SerializableChunkPos;
-import net.literally.chunk.loader.loaders.LCLLoader;
 import net.literally.chunk.loader.saves.ChunksSerializeManager;
 import net.literally.chunk.loader.utils.ModLogger;
 import net.minecraft.server.MinecraftServer;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 public final class LCLPersistentChunks {
     public static String CURRENT_LEVEL_NAME;
-    private static LclData data;
+    private static LCLData data;
 
     public static void initialize(MinecraftServer server) {
         CURRENT_LEVEL_NAME = server.getSaveProperties().getLevelName();
@@ -26,8 +25,8 @@ public final class LCLPersistentChunks {
     }
 
     private static void resetLoaderArea(MinecraftServer server, SerializableChunkPos chunk) {
-        for (int i = 0; i < LclData.SIZE; i++) {
-            for (int j = 0; j < LclData.SIZE; j++) {
+        for (int i = 0; i < LCLData.SIZE; i++) {
+            for (int j = 0; j < LCLData.SIZE; j++) {
                 forceLoadChunk(server, chunk.getChunkAtRelativeOffset(i, j), false);
             }
         }
@@ -48,15 +47,15 @@ public final class LCLPersistentChunks {
     }
 
     private static void initializeForcedChunks(MinecraftServer server) {
-        ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
+        ModLogger logger = ModLogger.DEFAULT_CHANNEL;
         data = ChunksSerializeManager.deserialize(server.getSaveProperties().getLevelName());
         if (data == null) {
-            data = new LclData();
+            data = new LCLData();
             save();
         }
         else {
-            logger.logInfo("Initializing: " + data.getChunks().size() + " force loaded chunks");
-            logger.logInfo("Found: " + data.getLoadersChunks().size() + " Loaders placed");
+            logger.logInfo("initializing: " + data.getChunks().size() + " force loaded chunks");
+            logger.logInfo("found: " + data.getLoadersChunks().size() + " Loaders placed");
             ArrayList<SerializableChunkPos> chunks = data.getChunks();
             for (SerializableChunkPos chunk : chunks) {
                 setChunkForceLoaded(server, chunk, true);
@@ -66,13 +65,13 @@ public final class LCLPersistentChunks {
 
     private static void setChunkForceLoaded(MinecraftServer server, SerializableChunkPos chunk, boolean state) {
         if (chunk == null) return;
-        ModLogger logger = new ModLogger(LCLLoader.MOD_ID);
+        ModLogger logger = ModLogger.DEFAULT_CHANNEL;
         ServerWorld serverWorld = server.getWorld(chunk.getDimensionRegistryKey());
         if (serverWorld == null) return;
         if (chunk.getX() >= -30000000 && chunk.getZ() >= -30000000 && chunk.getX() < 30000000 && chunk.getZ() < 30000000) {
             boolean res = serverWorld.setChunkForced(chunk.getX(), chunk.getZ(), state);
             if (res) {
-                logger.logInfo("Setting chunk: " + chunk + " forceloaded = " + state);
+                logger.logInfo("setting chunk: " + chunk + " forceloaded = " + state);
             }
         }
     }
