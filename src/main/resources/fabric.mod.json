@@ -12,6 +12,7 @@
     "sources": "https://github.com/trat-mods/LiterallyChunkLoader",
     "issues": "https://github.com/trat-mods/LiterallyChunkLoader/issues"
   },
+  "license": "GPL-2.0",
   "icon": "assets/lchunkloader/icon.png",
   "environment": "*",
   "entrypoints": {
