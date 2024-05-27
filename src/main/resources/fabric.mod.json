@@ -5,12 +5,12 @@
   "name": "Literally Chunk Loader",
   "description": "This is an actual Chunk Loader",
   "authors": [
-    "t_r_a_t"
+    "trat"
   ],
   "contact": {
-    "homepage": "https://github.com/tratteo/LiterallyChunkLoader/wiki",
-    "sources": "https://github.com/tratteo/LiterallyChunkLoader",
-    "issues": "https://github.com/tratteo/LiterallyChunkLoader/issues"
+    "homepage": "https://github.com/trat-mods/LiterallyChunkLoader/wiki",
+    "sources": "https://github.com/trat-mods/LiterallyChunkLoader",
+    "issues": "https://github.com/trat-mods/LiterallyChunkLoader/issues"
   },
   "icon": "assets/lchunkloader/icon.png",
   "environment": "*",
