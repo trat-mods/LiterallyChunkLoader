@@ -19,6 +19,7 @@ public class LCLLoader implements ModInitializer {
         LCLEntities.initialize();
 
         PayloadTypeRegistry.playC2S().register(ForcedChunksUpdatePacketPayload.ID, ForcedChunksUpdatePacketPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(ForcedChunksUpdatePacketPayload.ID, ForcedChunksUpdatePacketPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(ForcedChunksUpdatePacketPayload.ID, ((payload, context) -> context.player().server.execute(() -> {
             payload.onServerReceive(context.player().server);
         })));
