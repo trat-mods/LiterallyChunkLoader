@@ -21,6 +21,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -39,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 public class ChunkLoaderBlock extends BlockWithEntity {
-    public static final Identifier ID = Identifier.of(LCLLoader.MOD_ID, "chunk_loader");
+    public static final Identifier ID = new Identifier(LCLLoader.MOD_ID, "chunk_loader");
     public static final DirectionProperty FACING;
 
     static {

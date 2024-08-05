@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record ForcedChunksUpdatePacketPayload(int x, int z, boolean state, List<SerializableChunkPos> chunksPos) implements CustomPayload {
-    public static final CustomPayload.Id<ForcedChunksUpdatePacketPayload> ID = CustomPayload.id("lclpacket");
+    public static final CustomPayload.Id<ForcedChunksUpdatePacketPayload> ID = CustomPayload.id("lcl:packet");
     public static final PacketCodec<PacketByteBuf, ForcedChunksUpdatePacketPayload> CODEC = PacketCodec.of(ForcedChunksUpdatePacketPayload::write, ForcedChunksUpdatePacketPayload::read);
 
     public static ForcedChunksUpdatePacketPayload read(PacketByteBuf buf) {

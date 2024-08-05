@@ -14,7 +14,6 @@ import net.literally.chunk.loader.data.SerializableChunkPos;
 import net.literally.chunk.loader.initializer.LCLBlocks;
 import net.literally.chunk.loader.initializer.LCLGUIHandlers;
 import net.literally.chunk.loader.network.packets.packet.ForcedChunksUpdatePacketPayload;
-import net.literally.chunk.loader.utils.ModLogger;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -83,7 +82,12 @@ public class ChunkLoaderGUIHandler extends SyncedGuiDescription {
         List<SerializableChunkPos> chunks = payload.getChunksPos();
         if (!chunks.isEmpty()) {
             if (!chunks.getFirst().getDimension().equals(centre.getDimension())) {
-                ModLogger.DEFAULT_CHANNEL.logInfo("not calculating, other dim");
+                System.out.println("not calculating, other dim");
+                return;
+            }
+            SerializableChunkPos updateCentre = new SerializableChunkPos(payload.getX(), payload.getZ(), centre.getDimension());
+            if (centre.distanceFrom(updateCentre) > LCLData.SIZE * 1.5D) {
+                System.out.println("not calculating too far");
                 return;
             }
             for (int i = 0; i < LCLData.SIZE; i++) {
@@ -114,7 +118,7 @@ public class ChunkLoaderGUIHandler extends SyncedGuiDescription {
         for (int i = 0; i < LCLData.SIZE; i++) {
             int posX = (19 * i + 16);
             for (int j = 0; j < LCLData.SIZE; j++) {
-                WToggleButton curr = new WToggleButton(Identifier.of("lchunkloader:textures/gui/loaded.png"), Identifier.of("lchunkloader:textures/gui/not_loaded.png"));
+                WToggleButton curr = new WToggleButton(new Identifier("lchunkloader:textures/gui/loaded.png"), new Identifier("lchunkloader:textures/gui/not_loaded.png"));
                 int finalI = i;
                 int finalJ = j;
                 //System.out.println(i+", "+j);
