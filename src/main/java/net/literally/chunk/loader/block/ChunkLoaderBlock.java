@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.literally.chunk.loader.data.LCLData;
 import net.literally.chunk.loader.data.SerializableChunkPos;
 import net.literally.chunk.loader.entity.ChunkLoaderBlockEntity;
@@ -20,11 +19,13 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
@@ -40,14 +41,14 @@ import java.util.ArrayList;
 
 public class ChunkLoaderBlock extends BlockWithEntity {
     public static final Identifier ID = Identifier.of(LCLLoader.MOD_ID, "chunk_loader");
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
 
     static {
         FACING = HorizontalFacingBlock.FACING;
     }
 
     public ChunkLoaderBlock() {
-        super(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1F, 1F).nonOpaque());
+        super(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK, ID)).sounds(BlockSoundGroup.METAL).strength(1F, 1F).nonOpaque());
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 
@@ -122,7 +123,8 @@ public class ChunkLoaderBlock extends BlockWithEntity {
         double f = (double) pos.getZ() + 0.65D - (double) (random.nextFloat() * 0.3F);
         double g = 0.4F - (random.nextFloat() + random.nextFloat()) * 0.4F;
         if (random.nextInt(6) == 0) {
-            world.addParticle(ParticleTypes.END_ROD, d + 0.1F * g, e + 0.1F * g, f + 0.1F * g, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D);
+            world.addParticle(ParticleTypes.END_ROD, d + 0.1F * g, e + 0.1F * g, f + 0.1F * g, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D,
+                              random.nextGaussian() * 0.005D);
         }
         double x = (double) pos.getX() + 0.65D - (double) (random.nextFloat() * 0.3F);
         double y = (double) pos.getY() + 2.75D;

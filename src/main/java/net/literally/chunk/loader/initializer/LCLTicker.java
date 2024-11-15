@@ -11,6 +11,7 @@ import net.minecraft.server.world.OptionalChunk;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.profiler.Profilers;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.WorldChunk;
@@ -50,7 +51,10 @@ public final class LCLTicker {
         }
         storage.invokeEntryIterator().forEach(chunkHolder -> {
             // Ensure the chunk is force loaded rather than a "regular" chunk outside the 128-block radius
-            boolean forced = ticketManager.invokeGetTicketSet(chunkHolder.getPos().toLong()).stream().anyMatch(chunkTicket -> ((ChunkTicketTypeAccessor) chunkTicket.getType()).getName().equals("forced"));
+            boolean forced = ticketManager
+                    .invokeGetTicketSet(chunkHolder.getPos().toLong())
+                    .stream()
+                    .anyMatch(chunkTicket -> ((ChunkTicketTypeAccessor) chunkTicket.getType()).getName().equals("forced"));
             if (!forced) {
                 return;
             }
@@ -62,7 +66,7 @@ public final class LCLTicker {
             // Make sure it's too far to get regular random ticks
             if (storage.invokeIsTooFarFromPlayersToSpawnMobs(chunkHolder.getPos())) {
                 WorldChunk chunk = optionalWorldChunk.orElse(null);
-                Profiler profiler = world.getProfiler();
+                Profiler profiler = Profilers.get();
                 int startX = chunk.getPos().getStartX();
                 int startZ = chunk.getPos().getStartZ();
                 int startY = chunk.getPos().getStartPos().getY();
@@ -71,7 +75,8 @@ public final class LCLTicker {
                         for (int m = 0; m < randomTickSpeed; m++) {
                             BlockPos randomPosInChunk = world.getRandomPosInChunk(startX, startY, startZ, 15);
                             profiler.push("randomTick");
-                            BlockState blockState = chunkSection.getBlockState(randomPosInChunk.getX() - startX, randomPosInChunk.getY() - startY, randomPosInChunk.getZ() - startZ);
+                            BlockState blockState = chunkSection.getBlockState(randomPosInChunk.getX() - startX, randomPosInChunk.getY() - startY,
+                                                                               randomPosInChunk.getZ() - startZ);
                             if (blockState.hasRandomTicks()) {
                                 blockState.randomTick(world, randomPosInChunk, world.random);
                             }
