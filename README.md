@@ -87,8 +87,8 @@ not the actual block position of the Loader.
   command:  
   `/forceload remove all`
   
-  > [!WARNING]
-  > This command will remove all the force loaded chunks regardless of the state of all
-  > the Loaders in the whole map
+> [!WARNING]
+> The `/forceload remove all` command will remove all the force loaded chunks regardless of the state of all
+> the Loaders in the whole map.
 
 ---
