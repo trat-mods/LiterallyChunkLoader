@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "lchunkloader:block/chunk_loader_off"
+  }
+}

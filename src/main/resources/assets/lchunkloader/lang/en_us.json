@@ -1,3 +1,4 @@
 {
-    "block.lchunkloader.chunk_loader": "Loader"
+  "block.lchunkloader.chunk_loader": "Loader",
+  "item.lchunkloader.chunk_loader": "Loader"
 }

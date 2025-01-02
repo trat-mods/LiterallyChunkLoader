@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#/#",
+    "#E#",
+    "QQQ"
+  ],
+  "key": {
+    "#": "minecraft:ender_pearl",
+    "/": "minecraft:end_rod",
+    "E": "minecraft:ender_eye",
+    "Q": "minecraft:quartz_block"
+  },
+  "result": {
+    "id": "lchunkloader:chunk_loader",
+    "count": 1
+  }
+}
